@@ -4,10 +4,6 @@ import (
 	"testing"
 )
 
-func init() {
-
-}
-
 var Pubkey = `-----BEGIN 公钥-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk+89V7vpOj1rG6bTAKYM
 56qmFLwNCBVDJ3MltVVtxVUUByqc5b6u909MmmrLBqS//PWC6zc3wZzU1+ayh8xb

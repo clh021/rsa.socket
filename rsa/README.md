@@ -6,7 +6,7 @@ gorsa 支持rsa公钥加密私钥解密；支持rsa公钥解密私钥加密。
 
 使用方法: `go get github.com/clh021/rsa.socket/rsa`
 
-```vim
+```golang
 package main
 
 import (
@@ -58,7 +58,7 @@ cFQVB/nQfmaMa4ChK0QEUe+Mqi++MwgYbRHx1lIOXEfUJO+PXrMekw==
 `
 
 // 初始化设置公钥和私钥
-func init() {
+func handleInit() {
 	if err := gorsa.RSA.SetPublicKey(Pubkey); err != nil {
 		log.Fatalln(`set public key :`, err)
 	}
