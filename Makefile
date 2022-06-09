@@ -11,8 +11,10 @@ gitCID=$(shell git rev-parse HEAD)
 
 .PHONY: build
 build: generate
-	@cd cmd;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../bin/rsa"
-	@echo "[OK] App binary was created!"
+	@cd cmd/client;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../bin/client"
+	@echo "[OK] client binary was created!"
+	@cd cmd/server;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../bin/server"
+	@echo "[OK] server binary was created!"
 
 .PHONY: test
 test: 
