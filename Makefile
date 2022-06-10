@@ -9,12 +9,17 @@ generate:
 gitTime=$(shell date +%Y%m%d%H%M%S)
 gitCID=$(shell git rev-parse HEAD)
 
-.PHONY: build
-build: generate
-	@cd cmd/client;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../bin/client"
-	@echo "[OK] client binary was created!"
-	@cd cmd/server;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../bin/server"
-	@echo "[OK] server binary was created!"
+.PHONY: build.unidirectional
+build.unidirectional: generate
+	@cd cmd/unidirectional;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../bin/unidirectional"
+	@echo "[OK] unidirectional binary was created!"
+
+.PHONY: build.double-sided
+build.double-sided: generate
+	@cd cmd/double-sided/server;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../../bin/double-sided.server"
+	@echo "[OK] double-sided.server binary was created!"
+	@cd cmd/double-sided/client;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../../bin/double-sided.client"
+	@echo "[OK] double-sided.client binary was created!"
 
 .PHONY: test
 test: 

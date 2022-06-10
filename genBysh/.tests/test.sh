@@ -76,6 +76,7 @@ CLIENT_CSR_NAME="client.csr"
 CLIENT_CSR_PATH="${TEST_PATH}/tmp/${CLIENT_CSR_NAME}"
 CLIENT_CRT_NAME="client.crt"
 CLIENT_CRT_PATH="${TEST_PATH}/tmp/${CLIENT_CRT_NAME}"
+CLIENT_PFX_PATH="${TEST_PATH}/tmp/client.pfx"
 
 
 # -------------------------------------------------------------------------------------------------
@@ -238,7 +239,10 @@ echo
 echo "[INFO] Verify certificate is issued by CA"
 run "openssl verify -verbose -CAfile ${CA_CRT_PATH} ${CLIENT_CRT_PATH}"
 
-
+# Package Client certificate and key as client.pfx
+echo
+echo "[INFO] Package Client certificate and key as client.pfx"
+run "openssl pkcs12 -export -in ${CLIENT_CRT_PATH} -inkey ${CLIENT_KEY_PATH} -out ${CLIENT_PFX_PATH}"
 
 
 ERROR=0
