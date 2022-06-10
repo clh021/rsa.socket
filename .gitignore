@@ -1,2 +1,5 @@
 bin
 *.pem
+cmd/unidirectional/unidirectional
+cmd/double-sided/server/server
+cmd/double-sided/client/client
