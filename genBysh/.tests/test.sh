@@ -59,7 +59,7 @@ CA_CRT_PATH="${TEST_PATH}/tmp/${CA_CRT_NAME}"
 ###
 ### Certificate
 ###
-CERT_NAME="192.168.1.68"
+CERT_NAME="localhost"
 CERT_KEYSIZE=2048
 CERT_VALIDITY=400
 
@@ -69,6 +69,13 @@ CERT_CSR_NAME="cert.csr"
 CERT_CSR_PATH="${TEST_PATH}/tmp/${CERT_CSR_NAME}"
 CERT_CRT_NAME="cert.crt"
 CERT_CRT_PATH="${TEST_PATH}/tmp/${CERT_CRT_NAME}"
+
+CLIENT_KEY_NAME="client.key"
+CLIENT_KEY_PATH="${TEST_PATH}/tmp/${CLIENT_KEY_NAME}"
+CLIENT_CSR_NAME="client.csr"
+CLIENT_CSR_PATH="${TEST_PATH}/tmp/${CLIENT_CSR_NAME}"
+CLIENT_CRT_NAME="client.crt"
+CLIENT_CRT_PATH="${TEST_PATH}/tmp/${CLIENT_CRT_NAME}"
 
 
 # -------------------------------------------------------------------------------------------------
@@ -170,6 +177,67 @@ run "diff -y \
 echo
 echo "[INFO] Verify certificate is issued by CA"
 run "openssl verify -verbose -CAfile ${CA_CRT_PATH} ${CERT_CRT_PATH}"
+
+
+
+echo
+echo "# -------------------------------------------------------------------------------------------------"
+echo "# Creating Client Certificate"
+echo "# -------------------------------------------------------------------------------------------------"
+echo
+
+run "${ROOT_PATH}/bin/cert-gen \
+-v \
+-k ${CERT_KEYSIZE} \
+-d ${CERT_VALIDITY} \
+-n ${CERT_NAME} \
+-c DE \
+-s Berlin \
+-l Berlin \
+-o SomeOrg \
+-u SomeUnit \
+-e cert@${CERT_NAME} \
+-a '*.${CERT_NAME},*.dev.${CERT_NAME},www.${CERT_NAME}' \
+${CA_KEY_PATH} \
+${CA_CRT_PATH} \
+${CLIENT_KEY_PATH} \
+${CLIENT_CSR_PATH} \
+${CLIENT_CRT_PATH}"
+
+# Verify CRT
+echo
+echo "[INFO] Verify Client CRT"
+run "openssl x509 -noout -in ${CLIENT_CRT_PATH}"
+
+# Verify KEY
+echo
+echo "[INFO] Verify Client KEY"
+run "openssl rsa -check -noout -in ${CLIENT_KEY_PATH}"
+
+# Verify CSR
+echo
+echo "[INFO] Verify Client CSR"
+run "openssl req -noout -verify -in ${CLIENT_CSR_PATH}"
+
+# Check that KEY matches CRT
+echo
+echo "[INFO] Verify Client KEY matches CRT"
+run "diff -y \
+<(openssl x509 -noout -modulus -in ${CLIENT_CRT_PATH} | openssl md5) \
+<(openssl rsa -noout -modulus -in ${CLIENT_KEY_PATH} | openssl md5)"
+
+# Check that KEY matches CSR
+echo
+echo "[INFO] Verify Client KEY matches CSR"
+run "diff -y \
+<(openssl x509 -noout -modulus -in ${CLIENT_CRT_PATH} | openssl md5) \
+<(openssl req -noout -modulus -in ${CLIENT_CSR_PATH} | openssl md5)"
+
+# Check Client certificate is issued by CA
+echo
+echo "[INFO] Verify certificate is issued by CA"
+run "openssl verify -verbose -CAfile ${CA_CRT_PATH} ${CLIENT_CRT_PATH}"
+
 
 
 
