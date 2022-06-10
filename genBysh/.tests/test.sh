@@ -47,7 +47,7 @@ OPENSSL_PORT=4433
 ###
 ### Certificate Authority
 ###
-CA_NAME="devilbox.org"
+CA_NAME="lianghong.top"
 CA_KEYSIZE=2048
 CA_VALIDITY=3650
 
@@ -60,16 +60,16 @@ CA_CRT_PATH="${TEST_PATH}/tmp/${CA_CRT_NAME}"
 ###
 ### Certificate
 ###
-CERT_NAME="localhost"
+CERT_NAME="lianghong"
 CERT_KEYSIZE=2048
 CERT_VALIDITY=400
 
-CERT_KEY_NAME="cert.key"
-CERT_KEY_PATH="${TEST_PATH}/tmp/${CERT_KEY_NAME}"
-CERT_CSR_NAME="cert.csr"
-CERT_CSR_PATH="${TEST_PATH}/tmp/${CERT_CSR_NAME}"
-CERT_CRT_NAME="cert.crt"
-CERT_CRT_PATH="${TEST_PATH}/tmp/${CERT_CRT_NAME}"
+CERT_NAME="cert"
+CERT_KEY_NAME="${CERT_NAME}.key"
+CERT_KEY_PATH="${TEST_PATH}/tmp/${CERT_NAME}.key"
+CERT_CSR_PATH="${TEST_PATH}/tmp/${CERT_NAME}.csr"
+CERT_CRT_NAME="${CERT_NAME}.crt"
+CERT_CRT_PATH="${TEST_PATH}/tmp/${CERT_NAME}.crt"
 
 CLIENT_NAME="client"
 CLIENT_PFX_PASS="test"
