@@ -18,6 +18,8 @@ build.unidirectional: generate
 build.double-sided: generate
 	@cd cmd/double-sided/server;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../../bin/double-sided.server"
 	@echo "[OK] double-sided.server binary was created!"
+	@cd cmd/double-sided-gin/server;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../../bin/double-sided.server.gin"
+	@echo "[OK] double-sided.server.gin binary was created!"
 	@cd cmd/double-sided/client;CGO_ENABLED=0 GOOS=linux go build -ldflags "-s -w -X main.build=${gitTime}.${gitCID}" -o "../../../bin/double-sided.client"
 	@echo "[OK] double-sided.client binary was created!"
 

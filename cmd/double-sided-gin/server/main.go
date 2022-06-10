@@ -4,22 +4,16 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // 支持启动时显示构建日期和构建版本
 // 需要通过命令 ` go build -ldflags "-X main.build=`git rev-parse HEAD`" ` 打包
 var build = "not set"
-
-type httpsHandler struct {
-}
-
-func (*httpsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, "golang https server!!!")
-}
 
 func main() {
 	fmt.Printf("Build: %s\n", build)
@@ -33,9 +27,14 @@ func main() {
 	}
 	pool.AppendCertsFromPEM(caCrt)
 
+	r := gin.New() //gin.Default()
+	r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "golang gin https server!!!")
+	})
+
 	s := &http.Server{
 		Addr:    ":8080",
-		Handler: &httpsHandler{},
+		Handler: r,
 		TLSConfig: &tls.Config{
 			ClientCAs:  pool,
 			ClientAuth: tls.RequireAndVerifyClientCert,
