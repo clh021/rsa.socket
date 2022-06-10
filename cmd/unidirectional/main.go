@@ -18,7 +18,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Printf("Build: %s\n", build)
 	http.HandleFunc("/", handler)
-	if err := http.ListenAndServeTLS(":8080", "./genBysh/.tests/tmp/cert.crt", "./genBysh/.tests/tmp/cert.key", nil); err != nil {
+	if err := http.ListenAndServeTLS(":8080", "./bin/tmp/cert.crt", "./bin/tmp/cert.key", nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
 }

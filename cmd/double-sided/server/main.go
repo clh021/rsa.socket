@@ -24,7 +24,7 @@ func (*httpsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fmt.Printf("Build: %s\n", build)
 	pool := x509.NewCertPool()
-	caCertPath := "./genBysh/.tests/tmp/ca.crt"
+	caCertPath := "./bin/tmp/ca.crt"
 
 	caCrt, err := ioutil.ReadFile(caCertPath)
 	if err != nil {
@@ -42,7 +42,7 @@ func main() {
 		},
 	}
 
-	if err = s.ListenAndServeTLS("./genBysh/.tests/tmp/cert.crt", "./genBysh/.tests/tmp/cert.key"); err != nil {
+	if err = s.ListenAndServeTLS("./bin/tmp/cert.crt", "./bin/tmp/cert.key"); err != nil {
 		log.Fatal("ListenAndServeTLS err:", err)
 	}
 }
