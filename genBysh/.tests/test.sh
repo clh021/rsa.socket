@@ -4,10 +4,11 @@ set -e
 set -u
 set -o pipefail
 
-TEST_PATH="$( cd "$(dirname "$0")" && pwd -P )"
-ROOT_PATH="$( cd "${TEST_PATH}/.." && pwd -P )"
+SHELL_PATH="$( cd "$(dirname "$0")" && pwd -P )"
+ROOT_PATH="$( cd "${SHELL_PATH}/.." && pwd -P )"
+TEST_PATH="$( cd "${SHELL_PATH}/../../bin/" && pwd -P )"
 # shellcheck disable=SC1090
-. "${TEST_PATH}/.lib.sh"
+. "${SHELL_PATH}/.lib.sh"
 
 
 # -------------------------------------------------------------------------------------------------
@@ -241,8 +242,8 @@ run "openssl verify -verbose -CAfile ${CA_CRT_PATH} ${CLIENT_CRT_PATH}"
 
 # Package Client certificate and key as client.pfx
 echo
-echo "[INFO] Package Client certificate and key as client.pfx"
-run "openssl pkcs12 -export -in ${CLIENT_CRT_PATH} -inkey ${CLIENT_KEY_PATH} -out ${CLIENT_PFX_PATH}"
+echo "[INFO] Package Client certificate and key as client.pfx (pwd:test)"
+run "openssl pkcs12 -export -in ${CLIENT_CRT_PATH} -inkey ${CLIENT_KEY_PATH} -out ${CLIENT_PFX_PATH} -password pass:test"
 
 
 ERROR=0
