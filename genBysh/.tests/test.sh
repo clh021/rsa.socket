@@ -71,13 +71,12 @@ CERT_CSR_PATH="${TEST_PATH}/tmp/${CERT_CSR_NAME}"
 CERT_CRT_NAME="cert.crt"
 CERT_CRT_PATH="${TEST_PATH}/tmp/${CERT_CRT_NAME}"
 
-CLIENT_KEY_NAME="client.key"
-CLIENT_KEY_PATH="${TEST_PATH}/tmp/${CLIENT_KEY_NAME}"
-CLIENT_CSR_NAME="client.csr"
-CLIENT_CSR_PATH="${TEST_PATH}/tmp/${CLIENT_CSR_NAME}"
-CLIENT_CRT_NAME="client.crt"
-CLIENT_CRT_PATH="${TEST_PATH}/tmp/${CLIENT_CRT_NAME}"
-CLIENT_PFX_PATH="${TEST_PATH}/tmp/client.pfx"
+CLIENT_NAME="client"
+CLIENT_PFX_PASS="test"
+CLIENT_KEY_PATH="${TEST_PATH}/tmp/${CLIENT_NAME}.key"
+CLIENT_CSR_PATH="${TEST_PATH}/tmp/${CLIENT_NAME}.csr"
+CLIENT_CRT_PATH="${TEST_PATH}/tmp/${CLIENT_NAME}.crt"
+CLIENT_PFX_PATH="${TEST_PATH}/tmp/${CLIENT_NAME}.pfx"
 
 
 # -------------------------------------------------------------------------------------------------
@@ -242,8 +241,8 @@ run "openssl verify -verbose -CAfile ${CA_CRT_PATH} ${CLIENT_CRT_PATH}"
 
 # Package Client certificate and key as client.pfx
 echo
-echo "[INFO] Package Client certificate and key as client.pfx (pwd:test)"
-run "openssl pkcs12 -export -in ${CLIENT_CRT_PATH} -inkey ${CLIENT_KEY_PATH} -out ${CLIENT_PFX_PATH} -password pass:test"
+echo "[INFO] Package Client certificate and key as client.pfx (pwd:${CLIENT_PFX_PASS})"
+run "openssl pkcs12 -export -in ${CLIENT_CRT_PATH} -inkey ${CLIENT_KEY_PATH} -out ${CLIENT_PFX_PATH} -password pass:${CLIENT_PFX_PASS}"
 
 
 ERROR=0
