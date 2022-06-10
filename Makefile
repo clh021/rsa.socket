@@ -24,3 +24,7 @@ build.double-sided: generate
 .PHONY: test
 test: 
 	go test -v ./...
+
+.PHONY: testgen
+testgen:
+	@./genBysh/.tests/test.sh
